@@ -1,39 +1,21 @@
 locals {
   # The default username for our AMI
-  vm_user = "ubuntu"
-}
-
-# Get the latest Ubuntu Xenial AMI
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
+  vm_user = "${lookup(var.user_names, var.ami)}"
 }
 
 resource "aws_instance" "inst" {
   instance_type = "m3.xlarge"
-  tags = "${merge(map("Name", "${var.name}"), "${var.tags}")}"
-  ami = "${data.aws_ami.ubuntu.id}"
-  subnet_id = "subnet-02cb3074"
+  tags 		= "${merge(map("Name", "${var.name}"), "${var.tags}")}"
+  ami 		= "${lookup(var.amis, var.ami)}"
+  subnet_id 	= "subnet-02cb3074"
+  key_name 	= "${var.key_name}"
+  user_data 	= "${file("cloud-init.sh")}"
   associate_public_ip_address = "true"
-  # The name of our SSH keypair
-  key_name = "${var.key_name}"
 
   root_block_device {
-    volume_size = "180"
+    volume_size = "${var.size}"
   }
 
-# Our Security group to allow HTTP and SSH access
   vpc_security_group_ids = ["sg-102d636c"]
 
   # force Terraform to wait until a connection can be made, so that Ansible doesn't fail when trying to provision
