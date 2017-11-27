@@ -1,23 +1,8 @@
-# Terraform+Ansible Example
-
-This repository is the near-simplest example of deploying an provisioning a web server on Amazon Web Services (AWS), using [Terraform](https://www.terraform.io/) and [Ansible](http://docs.ansible.com/ansible/). Based on:
-
-* [Terraform's Basic Two-Tier AWS Architecture](https://www.terraform.io/intro/examples/aws.html) example
-* [AWS's VPC with a Single Public Subnet](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Scenario1.html) example
-
+# aws-automation
 ## Details
 
 This repository sets up:
-
-* A VPC
-* A subnet
-* An internet gateway
-* A security group
-* An SSH key pair
 * A publicly-accessible EC2 instance
-* Within the instance:
-   * Python 2 (for Ansible)
-   * Nginx
 
 ## Setup
 
@@ -31,17 +16,3 @@ This repository sets up:
 1. Ensure you have an SSH public key at `~/.ssh/id_rsa.pub`.
     * [How to generate](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
 
-## Usage
-
-```sh
-export AWS_DEFAULT_REGION=us-east-1
-
-./deploy.sh
-```
-
-[More information about the AWS environment variables](https://www.terraform.io/docs/providers/aws/#environment-variables). If it is successful, you should see an `address` printed out at the end. Visit this in your browser, and the page should say "Welcome to nginx!"
-
-### Notes
-
-* `./deploy.sh` is [idempotent](http://stackoverflow.com/questions/1077412/what-is-an-idempotent-operation).
-* [Information](https://www.terraform.io/intro/getting-started/variables.html#assigning-variables) about overriding [the Terraform variables](terraform/vars.tf).
