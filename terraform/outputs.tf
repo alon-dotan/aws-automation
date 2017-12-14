@@ -3,5 +3,5 @@ output "address" {
 }
 
 output "ssh" {
-  value = "ssh ${local.vm_user}@${aws_instance.inst.public_ip}"
+  value = "ssh ${local.vm_user}@${aws_instance.inst.public_ip} -i ${local.ssh_key_path}"
 }

@@ -1,0 +1,6 @@
+data "template_file" "init" {
+  template = "${file("${path.module}/init.tpl")}"
+  vars {
+    hostname = "${var.name}"
+  }
+}
